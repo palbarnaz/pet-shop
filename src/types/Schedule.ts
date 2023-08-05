@@ -10,3 +10,7 @@ export type Schedule = {
   service: Service;
 
 }
+
+export type FilterDate = {
+  dateHour: string;
+}

@@ -1,6 +1,7 @@
 
 "use client"
 import { useAppDispatch, useAppSelector } from '@/globalRedux/hooks';
+import { saveUserLogged } from '@/globalRedux/modules/userLoggedSlice';
 import { loginUserThunk, saveUser } from '@/globalRedux/modules/userSlice';
 import { Box, Button, Grid, TextField, Typography } from '@mui/material';
 import Link from 'next/link';
@@ -31,14 +32,13 @@ export default function Form ({ mode, textButton } : FormProps){
     const [alertUserError, setAlertUserError] = useState<boolean>(false);
     const { user } = useAppSelector((state) => state.user);
     const dispatch = useAppDispatch();
-    // const userLogged = useAppSelector((state) => state.userLogged);
-    // const navigate = useNavigate();
+    const userLogged = useAppSelector((state) => state.userLogged);
 
-    useEffect(() => {
-        // if (sessionStorage.getItem('userLoggedId')) {
-        //     navigate('/tasks');
-        // }
-    }, []);
+    // useEffect(() => {
+    //     if (sessionStorage.getItem('userLoggedId')) {
+    //         window.location.href = '/home';       
+    //     }
+    // }, []);
 
     useEffect(() => {
         if (mode === 'signup') {
@@ -82,19 +82,23 @@ export default function Form ({ mode, textButton } : FormProps){
     //     // dispatch(clearError());
     // }, [errorCreate]);
 
-    // useEffect(() => {
-    //     if (user) {
-    //         dispatch(saveUserLogged(user?.id ?? ''));
-    //     }
-    // }, [user]);
+    useEffect(() => {
+        if (user) {dispatch(saveUserLogged({idUser:user.id ?? '', authorization: user.tokenLogin}));}
+    }, [user, dispatch]);
 
-    // useEffect(() => {
-    //     if (userLogged.value) {
-    //         navigate('/tasks');
+    useEffect(() => {
+        if (userLogged.data.idUser) {
+            sessionStorage.setItem('userLoggedId', JSON.stringify(userLogged.data));
 
-    //         sessionStorage.setItem('userLoggedId', userLogged.value ?? '');
-    //     }
-    // }, [userLogged]);
+            
+            window.location.href = '/home';
+
+            // sessionStorage.setItem('userLoggedToken', userLogged.data.authorization ?? '');
+
+        }
+    }, [userLogged]);
+
+   
 
     function addUsers(evento: React.FormEvent<HTMLFormElement>) {
         evento.preventDefault();
@@ -135,7 +139,7 @@ export default function Form ({ mode, textButton } : FormProps){
                 helperText={errorEmail ? 'E-mail inválido, deve incluir -@- e -.com-' : ''}
                 onChange={(e) => setEmailUser(e.target.value)}
                 variant="outlined"
-                type="email"
+                type="text"
                 required
                 label="E-mail"
                 fullWidth
@@ -148,7 +152,7 @@ export default function Form ({ mode, textButton } : FormProps){
                 helperText={errorPassword ? 'A senha deve ter ao menos 8 caracteres' : ''}
                 onChange={(e) => setPassword(e.target.value)}
                 variant="outlined"
-                type="password"
+                type="text"
                 required
                 label="Senha"
                 fullWidth
@@ -163,7 +167,7 @@ export default function Form ({ mode, textButton } : FormProps){
                     margin="normal"
                     onChange={(e) => setRepassword(e.target.value)}
                     variant="outlined"
-                    type="password"
+                    type="text"
                     required
                     label="Digite a senha novamente"
                     fullWidth
@@ -173,7 +177,7 @@ export default function Form ({ mode, textButton } : FormProps){
                     margin="normal"
                     onChange={(e) => setName(e.target.value)}
                     variant="outlined"
-                    type="name"
+                    type="text"
                     required
                     label="Digite seu nome"
                     fullWidth
@@ -186,7 +190,7 @@ export default function Form ({ mode, textButton } : FormProps){
                     margin="normal"
                     onChange={(e) => setPhone(e.target.value)}
                     variant="outlined"
-                    type="phone"
+                    type="text"
                     required
                     label="Digite seu telefone"
                     fullWidth
