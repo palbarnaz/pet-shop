@@ -38,7 +38,7 @@ export const loginUserThunk = createAsyncThunk('users/loginUserThunk', async (da
 
 const user = createSlice({
     name: 'user',
-    initialState: {user: undefined},
+    initialState: {user: User},
     reducers: {},
     extraReducers(builder) {
         builder.addCase(loginUserThunk.fulfilled, (state, action) => {

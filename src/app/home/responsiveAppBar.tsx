@@ -10,6 +10,8 @@ import Toolbar from '@mui/material/Toolbar';
 import Tooltip from '@mui/material/Tooltip';
 import Typography from '@mui/material/Typography';
 import * as React from 'react';
+import PetsIcon from '@mui/icons-material/Pets';
+
 
 
 
@@ -77,7 +79,7 @@ export default function ResponsiveAppBar () {
                     <Box sx={{ flexGrow: 0 }}>
                         <Tooltip title="Open settings">
                             <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
-                                <Avatar sx={{ color: 'black'  }} alt={user?.name.toUpperCase()} src="/static/images/avatar/2.jpg" />
+                                <PetsIcon fontSize='large' sx={{ color: 'black'  }}  />
                             </IconButton>
                         </Tooltip>
                         <Menu

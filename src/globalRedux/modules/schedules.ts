@@ -1,20 +1,20 @@
 
-import { filterScheduleDate } from '@/api';
+import { createSchedule, filterScheduleDate, ScheduleRequest } from '@/api';
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 import { AxiosError } from 'axios';
 
 
 
-export const filterSchedules = createAsyncThunk('schedules/filterSchedules', async (date:any) => {
-    try {
-        const response = await filterScheduleDate(date);
 
+export const scheduleCreate = createAsyncThunk('schedules/create', async ( item: ScheduleRequest) => {
+    try {
+        const response = await createSchedule(item);
         return response;
+
     } catch (error: any) {
-        throw new Error("erro ao buscar agendamento");
+        throw new Error("erro ao criar agendamento");
     }
 });
-
 
 
 const schedules = createSlice({
@@ -24,7 +24,8 @@ const schedules = createSlice({
 
     },
     extraReducers(builder) {
-        builder.addCase(filterSchedules.fulfilled, (state, action) => {
+        
+        builder.addCase(scheduleCreate.fulfilled, (state, action) => {
             state.schedules = action.payload;
         });
         
@@ -32,4 +33,4 @@ const schedules = createSlice({
     },
 });
 
-export const servicesReducer = services.reducer;
+export const schedulesReducer = schedules.reducer;

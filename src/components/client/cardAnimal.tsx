@@ -1,33 +1,35 @@
 'use client'
-import { Service } from "@/types/Service";
+import { Animal } from "@/types/Animal";
 import { Box, Card, CardContent, Chip, FormControlLabel, Grid, Radio, Typography } from "@mui/material";
+import PetsIcon from '@mui/icons-material/Pets';
 
 
-interface CardServicesProps {
-    service: Service;
+interface CardAnimalProps {
+    animal: Animal;
 
 
 
 }
 
-export default function CardService({ service }: CardServicesProps) {
-const valueFormatted = new Intl.NumberFormat('pt-BR', {style:'currency', currency:'BRL'}).format(service.price)
+export default function CardAnimal({ animal }: CardAnimalProps) {
 
     const renderCard = () => {
         return (
             <>
                
-                <Card  sx={{ minHeight: '150px', padding: '10px' }}>
+                <Card  sx={{minHeight: '150px', minWidth:'150px' ,padding: '10px' }}>
 
                     <CardContent  sx={{ padding: '0px', paddingBottom: '0px !important' }}>
                         <Box display={"flex"} justifyContent={'flex-start'} alignItems={'center'} flexDirection={'column'}>
+                            <PetsIcon/>
                             <Typography gutterBottom textAlign={"center"} variant="h6" component="div">
-                                {service.description}
+                             {animal.name}
                             </Typography>
                             <Typography gutterBottom variant="body2" component="div">
-                                Duração em torno de {service.duration} hora.
+                              
+                            <Chip sx={{backgroundColor:'#4de4c1'}} size="medium" label={animal.specie}/>
+
                             </Typography>
-                            <Chip sx={{backgroundColor:'#b2e44d'}} size="medium" label={valueFormatted}/>
 
                             
                         </Box>
@@ -46,7 +48,7 @@ const valueFormatted = new Intl.NumberFormat('pt-BR', {style:'currency', currenc
         <>
 
             <Grid item xs={12} sm={6} md={3}>
-                <FormControlLabel value={service?.id} label={renderCard()} labelPlacement="bottom" control={<Radio/>} />
+                <FormControlLabel value={animal?.id} label={renderCard()} labelPlacement="bottom" control={<Radio/>} />
             </Grid>
         </>
 

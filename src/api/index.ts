@@ -27,10 +27,19 @@ export type TUserLogin = {
     authorization: string
   }
 
+  
+
   export type ScheduleRequest = {
     idUser: string,
     authorization: string,
-    schedule: Schedule
+    schedule: {
+      dateHour: any,
+      idAnimal: string,
+      idService: string,
+    }
+    
+
+    
   }
 
 export async function loginUser(data: TUserLogin){
@@ -47,8 +56,8 @@ export async function getUser({ idUser, authorization }: UserRequestGet) {
     return res.data;
 }
 
-export async function createSchedule({ idUser, authorization, schedule }: ScheduleRequest) {
-  const res = await api.post(`schedules/${idUser}`, schedule ,{ headers: { AuthToken: authorization } });
+export async function createSchedule(item: ScheduleRequest) {
+  const res = await api.post(`schedules/${item.idUser}`, item.schedule, { headers: { AuthToken: item.authorization } });
   return res.data;
 }
 
@@ -62,6 +71,7 @@ export async function getService() {
   const res = await api.get(`services`);
   return res.data;
 }
+
 
 
 
