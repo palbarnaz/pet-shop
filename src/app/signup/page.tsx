@@ -2,7 +2,7 @@
 import { useState } from "react";
 import { Box, TextField } from "../../../node_modules/@mui/material/index";
 import PetsIcon from '@mui/icons-material/Pets';
-import RegisterBox from "@/components/form/registerbox";
+import RegisterBox from "@/components/Form/Registerbox";
 
 
 

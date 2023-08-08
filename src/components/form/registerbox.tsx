@@ -1,8 +1,9 @@
+'use client'
 
 import React from 'react';
 import { Box, Container, Paper } from '@mui/material';
-import HeaderForm from './headerform';
-import Form from './form';
+import HeaderForm from './HeaderForm';
+import Form from './Form';
 
 
 interface RegisterBoxProps {

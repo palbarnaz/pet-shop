@@ -1,5 +1,6 @@
 'use client'
 import { Service } from "@/types/Service";
+import { formatCurrency } from "@/utils/formatCurrency";
 import { Box, Card, CardContent, Chip, FormControlLabel, Grid, Radio, Typography } from "@mui/material";
 
 
@@ -11,7 +12,6 @@ interface CardServicesProps {
 }
 
 export default function CardService({ service }: CardServicesProps) {
-const valueFormatted = new Intl.NumberFormat('pt-BR', {style:'currency', currency:'BRL'}).format(service.price)
 
     const renderCard = () => {
         return (
@@ -27,7 +27,7 @@ const valueFormatted = new Intl.NumberFormat('pt-BR', {style:'currency', currenc
                             <Typography gutterBottom variant="body2" component="div">
                                 Duração em torno de {service.duration} hora.
                             </Typography>
-                            <Chip sx={{backgroundColor:'#b2e44d'}} size="medium" label={valueFormatted}/>
+                            <Chip color="success" size="medium" label={formatCurrency(service.price)}/>
 
                             
                         </Box>
@@ -45,7 +45,7 @@ const valueFormatted = new Intl.NumberFormat('pt-BR', {style:'currency', currenc
     return (
         <>
 
-            <Grid item xs={12} sm={6} md={3}>
+            <Grid display={'flex'} justifyContent={'center'} item xs={12} sm={6} md={3}>
                 <FormControlLabel value={service?.id} label={renderCard()} labelPlacement="bottom" control={<Radio/>} />
             </Grid>
         </>

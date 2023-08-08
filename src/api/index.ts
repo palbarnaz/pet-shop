@@ -37,9 +37,15 @@ export type TUserLogin = {
       idAnimal: string,
       idService: string,
     }
-    
+  }
 
-    
+  export type AnimalRequest = {
+    idUser: string,
+    authorization: string,
+    animal: {
+      name: string,
+      specie: string,
+    }
   }
 
 export async function loginUser(data: TUserLogin){
@@ -54,6 +60,11 @@ export async function createUser(data: User) {
 export async function getUser({ idUser, authorization }: UserRequestGet) {
     const res = await api.get(`users/${idUser}`, { headers: { AuthToken: authorization } });
     return res.data;
+}
+
+export async function  getScheduleByUser({ idUser, authorization }: UserRequestGet) {
+  const res = await api.get(`schedules/${idUser}`, { headers: { AuthToken: authorization } });
+  return res.data;
 }
 
 export async function createSchedule(item: ScheduleRequest) {
@@ -74,4 +85,7 @@ export async function getService() {
 
 
 
-
+export async function createAnimal(item: AnimalRequest) {
+  const res = await api.post(`animals/${item.idUser}`, item.animal, { headers: { AuthToken: item.authorization } });
+  return res.data;
+}

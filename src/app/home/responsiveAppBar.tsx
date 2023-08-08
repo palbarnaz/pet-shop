@@ -1,6 +1,6 @@
+'use client'
 import { useAppDispatch, useAppSelector } from '@/globalRedux/hooks';
 import AppBar from '@mui/material/AppBar';
-import Avatar from '@mui/material/Avatar';
 import Box from '@mui/material/Box';
 import Container from '@mui/material/Container';
 import IconButton from '@mui/material/IconButton';
@@ -11,15 +11,18 @@ import Tooltip from '@mui/material/Tooltip';
 import Typography from '@mui/material/Typography';
 import * as React from 'react';
 import PetsIcon from '@mui/icons-material/Pets';
+import LogoutIcon from '@mui/icons-material/Logout';
+import { Button } from '@mui/material';
+import Link from 'next/link';
 
 
 
-
+const pages = [{ label: '+ Agendamento', url: '/schedules' }, { label: '+ Animal', url: '/animals' }]
 
 const settings = ['Sair'];
 
-export default function ResponsiveAppBar () {
-    
+export default function ResponsiveAppBar() {
+
     const [anchorElNav, setAnchorElNav] = React.useState<null | HTMLElement>(null);
     const [anchorElUser, setAnchorElUser] = React.useState<null | HTMLElement>(null);
     const dispatch = useAppDispatch();
@@ -49,6 +52,17 @@ export default function ResponsiveAppBar () {
         <AppBar position="static" sx={{ color: 'black', backgroundColor: '#e6d343' }}>
             <Container maxWidth="xl">
                 <Toolbar disableGutters>
+                    <Button
+                        LinkComponent={Link}
+                        href={"/home"}
+                        sx={{
+                            mr: 2,
+                            display: { xs: 'none', md: 'flex' },
+                            color: 'inherit'
+                        }}
+                    >
+                        <PetsIcon fontSize='large' />
+                    </Button>
                     <Box sx={{ flexGrow: 1, display: { xs: 'flex', md: 'none' } }}>
                         <IconButton
                             size="large"
@@ -58,28 +72,57 @@ export default function ResponsiveAppBar () {
                             onClick={handleOpenNavMenu}
                             color="inherit"
                         />
+                        <Typography
+                            variant="h6"
+                            noWrap
+                            component="a"
+                            href="/home"
+                            sx={{
+                                mr: 2,
+
+                                fontFamily: 'monospace',
+                                fontWeight: 700,
+                                letterSpacing: '.3rem',
+                                color: 'inherit',
+                                textDecoration: 'none',
+                            }}
+                        >
+                            <PetsIcon />
+                        </Typography>
+
                     </Box>
 
-                    <Box sx={{ flexGrow: 1 }} />
 
+
+                    <Box sx={{ flexGrow: 1, display: { xs: 'none', md: 'flex' } }}>
+                        {pages.map((page) => (
+                            <Button
+                                key={page.label}
+                                LinkComponent={Link}
+                                href={page.url}
+                                sx={{ my: 2, color: 'black', display: 'block', fontWeight: 'bold' }}
+                            >
+                                {page.label}
+                            </Button>
+                        ))}
+                    </Box>
                     <Typography
                         variant="body1"
                         component="a"
                         sx={{
                             mr: 2,
-                            display: { xs: 'none', sm: 'flex', alignSelf: 'center' },
-
+                            display: { xs: 'none', md: 'flex' },
                             color: 'inherit',
                             textDecoration: 'none',
                         }}
                     >
-                        Bem vindo(a), {user?.name}
-                    </Typography>
 
+                    </Typography>
                     <Box sx={{ flexGrow: 0 }}>
+
                         <Tooltip title="Open settings">
                             <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
-                                <PetsIcon fontSize='large' sx={{ color: 'black'  }}  />
+                                <LogoutIcon fontSize='large' sx={{ color: 'black' }} />
                             </IconButton>
                         </Tooltip>
                         <Menu
@@ -97,7 +140,18 @@ export default function ResponsiveAppBar () {
                             }}
                             open={Boolean(anchorElUser)}
                             onClose={handleClose}
+
                         >
+                            {pages.map((page) => (
+                                <MenuItem sx={{
+
+                                    display: { xs: 'flex', md: 'none' }, color: 'black'
+
+                                }} key={page.label}  >
+                                    <Typography sx={{ color: 'inherit' }} textAlign="center">{page.label}</Typography>
+                                </MenuItem>
+
+                            ))}
                             {settings.map((setting) => (
                                 <MenuItem key={setting}>
                                     <Typography onClick={handleCloseUserMenu} textAlign="center">

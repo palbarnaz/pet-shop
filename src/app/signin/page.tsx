@@ -1,5 +1,6 @@
+'use client'
 
-import RegisterBox from '@/components/form/registerbox';
+import RegisterBox from '@/components/Form/Registerbox';
 import PetsIcon from '@mui/icons-material/Pets';
 
 
