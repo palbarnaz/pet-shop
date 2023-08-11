@@ -6,9 +6,9 @@ import {  createUser, getUser, loginUser, TUserLogin, UserRequestGet } from '../
 
 
 
-export const getUserId = createAsyncThunk('users/getUser', async ({ idUser, authorization }: UserRequestGet) => {
+export const getUserId = createAsyncThunk('users/getUser', async () => {
     try {
-        const response = await getUser({idUser, authorization});
+        const response = await getUser();
 
         return response;
     } catch (error: any) {
@@ -29,7 +29,6 @@ export const saveUser = createAsyncThunk('users/saveUsers', async (data: User) =
 export const loginUserThunk = createAsyncThunk('users/loginUserThunk', async (data: TUserLogin) => {
     try {
         const response = await loginUser(data);
-
         return response;
     } catch (error: any) {
         throw new Error((error as AxiosError<{ message: string }>).response?.data.message);
@@ -38,11 +37,14 @@ export const loginUserThunk = createAsyncThunk('users/loginUserThunk', async (da
 
 const user = createSlice({
     name: 'user',
-    initialState: {user: {} as User},
+    initialState: {user: {} as User,
+token: ''},
     reducers: {},
     extraReducers(builder) {
         builder.addCase(loginUserThunk.fulfilled, (state, action) => {
-            state.user = action.payload;
+            state.token = action.payload.tokenJwt
+            // sessionStorage.setItem("authorization", action.payload.tokenJwt)
+            state.user = action.payload.user;  
         });
         
         builder.addCase(getUserId.fulfilled, (state, action) => {

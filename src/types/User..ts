@@ -7,7 +7,6 @@ export type User = {
   phone: string;
   password: string;
   profile: "ADMIN" | "CLIENT" ;
-  tokenLogin?: string;
   animals?: Array<Animal>;
 
 

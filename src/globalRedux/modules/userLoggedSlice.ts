@@ -2,19 +2,19 @@ import { UserRequestGet } from '@/api';
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 
 const initialState = {
-    data: {} as UserRequestGet,
+    authorization : ''
 };
 
 const userLogged = createSlice({
     name: 'userLogged',
     initialState,
     reducers: {
-        saveUserLogged: (state, action: PayloadAction<UserRequestGet>) => {
-             state.data = action.payload
+        saveUserLogged: (state, action: PayloadAction<string>) => {
+             state.authorization = action.payload
              
             },
         logoutUser: (state) => {
-            state.data = {} as UserRequestGet
+            state.authorization = '';
          }
     },
 });

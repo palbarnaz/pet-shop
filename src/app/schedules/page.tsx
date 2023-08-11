@@ -6,29 +6,30 @@ import { getServices } from "@/globalRedux/modules/servicesSlice";
 import { saveUserLogged } from "@/globalRedux/modules/userLoggedSlice";
 import { getUserId } from "@/globalRedux/modules/userSlice";
 import { Container, Grid } from "@mui/material"
+import { useRouter } from "next/navigation";
 import { useEffect } from "react";
 import ResponsiveAppBar from "../home/ResponsiveAppBar"
 
 
 export default function Schedules() {
+  const { push } = useRouter();
   const dispatch = useAppDispatch();
   const { user } = useAppSelector((state) => state.user);
   
 
   useEffect(() => {
-    const userLoggedSession = sessionStorage?.getItem('userLoggedId');
-  const userLogged = userLoggedSession ? JSON.parse(userLoggedSession) : null;
+    const authToken = sessionStorage?.getItem('authToken');
 
-    if (!userLogged) {
-      window.location.href = '/signin';       
+    if (!authToken) {
+     push('/signin');       
 
     }
     
-    dispatch(saveUserLogged(userLogged))
-    dispatch(getUserId(userLogged));
+    dispatch(saveUserLogged(authToken || ''))
+    dispatch(getUserId());
     dispatch(getServices())
 
-}, [dispatch]);
+}, []);
 
 
 

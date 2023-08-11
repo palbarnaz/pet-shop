@@ -34,7 +34,7 @@ export default function CardSchedule({animal, service, dataHour}: CardSchedulePr
              
               <Box display="flex" margin={3} justifyContent="center" flexWrap="wrap" alignItems="center" gap={0.7}>
               <Chip color={"default"} size="medium" label={dayjs(dataHour).format('DD/MM [às] HH:00')} />
-              <Chip color={"default"} size="medium" label={formatCurrency(service.price)} />
+              <Chip color="success" size="medium" label={formatCurrency(service.price)} />
           </Box>
               
 

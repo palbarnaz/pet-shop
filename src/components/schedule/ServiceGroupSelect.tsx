@@ -1,6 +1,6 @@
 'use client'
 import { useAppSelector } from "@/globalRedux/hooks";
-import { FormControl, FormLabel, Grid, RadioGroup } from "@mui/material";
+import { FormControl,  Grid, RadioGroup } from "@mui/material";
 import { ChangeEvent, useState } from "react";
 import CardService from "./CardService";
 
@@ -16,13 +16,13 @@ export default function ServiceGroupSelect({ handleChange,value}: ServiceGroupSe
 
   return(
     <>
-    <FormControl>
+    <FormControl  sx={{width:'100%'}} >
   <RadioGroup
-    
+
     value={value}
     onChange={handleChange}
   >
-    <Grid container spacing={4}>
+    <Grid container justifyContent={"center"} spacing={4}>
     {services.map((item) => <CardService key={item.id} service={item} />
           )}
     </Grid>

@@ -9,21 +9,19 @@ import CardSchedule from "./CardSchedule";
 
 export default function ListSchedules (){
   const dispatch = useAppDispatch();
-  const { user } = useAppSelector((state) => state.user);
+  const { user } = useAppSelector((state) => state.user);  
+  const { data } = useAppSelector((state) => state.userLogged);
+
   const {schedules} = useAppSelector((state)=> state.schedule)
    useEffect(()=>{
     if(user){
-      dispatch(getSchedules({idUser: user.id, authorization: user.tokenLogin}))
+      dispatch(getSchedules())
+      
     }
 
-   },[dispatch])
+   },[dispatch, user])
 
 
-   useEffect(()=>{
-  console.log(schedules);
-  
-
-   },[schedules])
 
   return(
     <Grid container marginBottom={10}>
@@ -36,26 +34,7 @@ export default function ListSchedules (){
                 </Grid>
                 {schedules.map(s =>  <CardSchedule animal={s.animal} key={s.id} dataHour={s.dateHour} service={s.service}/> )}
                
-                {/* {tasks.length ? (
-                    tasks.map((item: any) => {
-                        return (
-                            <CardTask
-                                key={item.id}
-                                mode="tasks"
-                                description={item.description}
-                                detail={item.detail}
-                                favorite={item.favorite}
-                                actionFavorite={() => executeAction(item, actionFavorite)}
-                                actionEdit={() => executeAction(item, actionEdit)}
-                                actionDelete={() => executeAction(item, actionDelete)}
-                            />
-                        );
-                    })
-                ) : (
-                    <Box margin={5}>
-                        <Typography variant="h6">Nenhum recado existente!</Typography>
-                    </Box>
-                )} */}
+        
             </Grid>
         </Container>
     </Grid>

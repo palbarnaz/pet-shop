@@ -5,6 +5,7 @@ import { saveUserLogged } from '@/globalRedux/modules/userLoggedSlice';
 import { loginUserThunk, saveUser } from '@/globalRedux/modules/userSlice';
 import { Box, Button, Grid, TextField, Typography } from '@mui/material';
 import Link from 'next/link';
+import { useRouter } from 'next/navigation';
 import React, { useEffect, useState } from 'react';
 
 
@@ -17,6 +18,8 @@ interface FormProps {
 }
 
 export default function Form ({ mode, textButton } : FormProps){
+    const { push } = useRouter();
+
     const [emailUser, setEmailUser] = useState<string>('');
     const [password, setPassword] = useState<string>('');
     const [repassword, setRepassword] = useState<string>('');
@@ -30,15 +33,15 @@ export default function Form ({ mode, textButton } : FormProps){
     const [alertCreateUser, setAlertCreateUser] = useState<boolean>(false);
     const [alertInfo, setAlertInfo] = useState<boolean>(false);
     const [alertUserError, setAlertUserError] = useState<boolean>(false);
-    const { user } = useAppSelector((state) => state.user);
+    const { user, token } = useAppSelector((state) => state.user);
     const dispatch = useAppDispatch();
     const userLogged = useAppSelector((state) => state.userLogged);
 
     // useEffect(() => {
-    //     if (sessionStorage.getItem('userLoggedId')) {
-    //         window.location.href = '/home';       
+    //     if (sessionStorage.getItem('userLogged')) {
+    //         push('/home')      
     //     }
-    // }, []);
+    // }, [push]);
 
     useEffect(() => {
         if (mode === 'signup') {
@@ -67,36 +70,23 @@ export default function Form ({ mode, textButton } : FormProps){
         }
     }, [emailUser, password, repassword, mode, phone]);
 
-    // useEffect(() => {
-    //     if (errorLogin) setAlertUserError(true);
-    //     dispatch(clearError());
-    // }, [errorLogin]);
-
-    // useEffect(() => {
-    //     if (successCreate) setAlertCreateUser(true);
-    //     dispatch(clearError());
-    // }, [successCreate]);
-
-    // useEffect(() => {
-    //     if (errorCreate) setAlertInfo(true);
-    //     // dispatch(clearError());
-    // }, [errorCreate]);
+   
 
     useEffect(() => {
-        if (user) {dispatch(saveUserLogged({idUser:user.id ?? '', authorization: user.tokenLogin}));}
-    }, [user, dispatch]);
+        if (user) {dispatch(saveUserLogged(token));}
+    }, [user, dispatch, token]);
 
     useEffect(() => {
-        if (userLogged.data.idUser) {
-            sessionStorage.setItem('userLoggedId', JSON.stringify(userLogged.data));
+        if (userLogged.authorization) {
+            sessionStorage.setItem('authToken', userLogged.authorization);
 
-            
-            window.location.href = '/home';
+            push('/home')    
+           
 
-            // sessionStorage.setItem('userLoggedToken', userLogged.data.authorization ?? '');
+         
 
         }
-    }, [userLogged]);
+    }, [userLogged, push]);
 
    
 
@@ -133,7 +123,6 @@ export default function Form ({ mode, textButton } : FormProps){
 
             <TextField
                 value={emailUser}
-                name="emailUser"
                 margin="normal"
                 error={errorEmail}
                 helperText={errorEmail ? 'E-mail inválido, deve incluir -@- e -.com-' : ''}
@@ -147,7 +136,6 @@ export default function Form ({ mode, textButton } : FormProps){
             <TextField
                 value={password}
                 margin="normal"
-                name="password"
                 error={errorPassword}
                 helperText={errorPassword ? 'A senha deve ter ao menos 8 caracteres' : ''}
                 onChange={(e) => setPassword(e.target.value)}
@@ -229,7 +217,7 @@ export default function Form ({ mode, textButton } : FormProps){
                         </Typography>
                     ) : (
                         <Typography textAlign="center" variant="body2">
-                            <Link style={{ color: 'inherit', textDecoration: 'none' }} href={"signin"}>
+                            <Link style={{ color: 'inherit', textDecoration: 'none' }} href={"/signin"}>
                                 Já tem uma conta?
                             </Link>
                         </Typography>

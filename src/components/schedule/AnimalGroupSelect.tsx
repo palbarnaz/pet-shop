@@ -1,6 +1,6 @@
 'use client'
 import { useAppSelector } from "@/globalRedux/hooks";
-import { FormControl, FormLabel, Grid, RadioGroup } from "@mui/material";
+import { Box, FormControl, Grid, RadioGroup, Typography } from "@mui/material";
 import { ChangeEvent, useState } from "react";
 import CardAnimal from "./CardAnimal";
 
@@ -23,8 +23,8 @@ export default function AnimalGroupSelect({ handleChange,value}: AnimalGroupSele
     onChange={handleChange}
   >
     <Grid container  spacing={5} justifyContent="center">
-    {user.animal.map((item) => <CardAnimal key={item.id} animal={item}  />
-          )}
+      {user.animal.map((item) => <CardAnimal key={item.id} animal={item}  /> )}
+    
     </Grid>
    
   </RadioGroup>

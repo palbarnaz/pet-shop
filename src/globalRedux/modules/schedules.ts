@@ -6,9 +6,9 @@ import { AxiosError } from 'axios';
 
 
 
-export const getSchedules = createAsyncThunk('schedules/get', async ( item: UserRequestGet) => {
+export const getSchedules = createAsyncThunk('schedules/get', async () => {
     try {
-        const response = await getScheduleByUser(item);
+        const response = await getScheduleByUser();
         return response;
 
     } catch (error: any) {
@@ -42,7 +42,9 @@ const schedules = createSlice({
         });
         
         builder.addCase(scheduleCreate.fulfilled, (state, action) => {
-            state.schedules = action.payload;
+            console.log("Agendamento Cadastrado!");
+         
+            
         });
         
     

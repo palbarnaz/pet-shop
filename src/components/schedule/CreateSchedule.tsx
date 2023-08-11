@@ -2,7 +2,7 @@
 
 import { useAppDispatch, useAppSelector } from "@/globalRedux/hooks"
 import { Service } from "@/types/Service";
-import { Box, Button, Card, CardContent, Container, FormControl, Grid, InputLabel, MenuItem, Select, Typography } from "@mui/material"
+import { Alert, Box, Button, Card, CardContent, Container, FormControl, Grid, InputLabel, MenuItem, Select, Typography } from "@mui/material"
 import { DatePicker, LocalizationProvider } from "@mui/x-date-pickers";
 import { DemoContainer } from '@mui/x-date-pickers/internals/demo';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
@@ -15,6 +15,7 @@ import { FilterDate } from "@/types/Schedule";
 import { filterScheduleDate, ScheduleRequest } from "@/api";
 import { scheduleCreate } from "@/globalRedux/modules/schedules";
 import AnimalGroupSelect from "./AnimalGroupSelect";
+import { useRouter } from "next/navigation";
 const hoursAvailable = ["09","10","11","12","13","14","15","16","17","18"]
 
 export default function CreateSchedule() {
@@ -27,6 +28,7 @@ export default function CreateSchedule() {
   const [valid, setValid] = useState<boolean>(true);
   const { user } = useAppSelector((state) => state.user);
   const dispatch = useAppDispatch();
+  const {push} = useRouter();
 
   useEffect(() => {
     if (hour && day?.date() && service && animal) {
@@ -82,19 +84,15 @@ export default function CreateSchedule() {
    const dateHour = day?.hour(Number(hour)).format('YYYY-MM-DDTHH:00:00');
 
    const schedule: ScheduleRequest = {
-    idUser: user.id,
-    authorization: user.tokenLogin || '',
-    schedule:{
       dateHour: dateHour,
       idAnimal: animal,
       idService: service
-    }
    }
 
     dispatch(scheduleCreate(schedule))
     setDay(dayjs(new Date()))
     setHour('')
-    window.location.href = '/home'; 
+    push('/home'); 
   }
 
 
@@ -105,7 +103,12 @@ export default function CreateSchedule() {
         <Typography textAlign={'center'} variant="h5">Selecione o Animal</Typography>
         <Container >
           <Grid  item display={'flex'} justifyContent={'center'}  sx={{ marginTop: '30px' }}>
-            <AnimalGroupSelect value={animal} handleChange={(_event, value) => handleAnimal(value)}/>
+           {user.animal ? (<AnimalGroupSelect value={animal} handleChange={(_event, value) => handleAnimal(value)}/>) 
+           : (
+            <Alert severity="warning"> Sem pets cadastrados. Cadastre já!</Alert>
+           
+
+           )}  
           </Grid>
         </Container>
       </Grid>

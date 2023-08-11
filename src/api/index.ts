@@ -13,6 +13,11 @@ export default async (req, res) => {
   };
 
 
+const getAuthorization = ()=>{
+  const authToken = sessionStorage?.getItem('authToken');  
+  return authToken
+}
+
 
 const api = axios.create({
     baseURL: process.env.NEXT_PUBLIC_API_URL,
@@ -23,69 +28,66 @@ export type TUserLogin = {
     password: string;
   }
   export type UserRequestGet = {
-    idUser: string,
     authorization: string
   }
 
-  
 
   export type ScheduleRequest = {
-    idUser: string,
-    authorization: string,
-    schedule: {
       dateHour: any,
       idAnimal: string,
       idService: string,
-    }
+    
   }
 
   export type AnimalRequest = {
-    idUser: string,
-    authorization: string,
-    animal: {
       name: string,
       specie: string,
     }
-  }
 
 export async function loginUser(data: TUserLogin){
-    const res = await api.post('auth', data);
+ 
+  
+    const res = await api.post('login', data);
+    
     return res.data;
+    
+    
 }
 export async function createUser(data: User) {
     const res = await api.post('users', data);
     return res.data;
 }
 
-export async function getUser({ idUser, authorization }: UserRequestGet) {
-    const res = await api.get(`users/${idUser}`, { headers: { AuthToken: authorization } });
+export async function getUser() {
+    const res = await api.get(`users/getUser`, { headers: { Authorization:`'Bearer' ${getAuthorization()} `} });
     return res.data;
 }
 
-export async function  getScheduleByUser({ idUser, authorization }: UserRequestGet) {
-  const res = await api.get(`schedules/${idUser}`, { headers: { AuthToken: authorization } });
+
+export async function  getScheduleByUser() {
+  const res = await api.get(`schedules/schedulesByUser`, { headers: { Authorization: `'Bearer' ${getAuthorization()} ` } });
   return res.data;
 }
 
 export async function createSchedule(item: ScheduleRequest) {
-  const res = await api.post(`schedules/${item.idUser}`, item.schedule, { headers: { AuthToken: item.authorization } });
+  const res = await api.post(`schedules`, item, { headers: { Authorization: `'Bearer' ${getAuthorization()} `} });
   return res.data;
 }
 
 export async function filterScheduleDate(date : any) {
-  const res = await api.get<FilterDate[]>(`schedules/filterDate?date=${date}` );
+  const res = await api.get<FilterDate[]>(`schedules/filterDate?date=${date}`, { headers: { Authorization: `'Bearer' ${getAuthorization()} ` } } );
   return res.data;
 }
 
 
 export async function getService() {
-  const res = await api.get(`services`);
+  const res = await api.get(`services`, {headers: {Authorization: `'Bearer' ${getAuthorization()} `}});
   return res.data;
 }
 
 
 
 export async function createAnimal(item: AnimalRequest) {
-  const res = await api.post(`animals/${item.idUser}`, item.animal, { headers: { AuthToken: item.authorization } });
+  const res = await api.post(`animals`, item, { headers: { Authorization: `'Bearer' ${getAuthorization()} `} });
   return res.data;
 }

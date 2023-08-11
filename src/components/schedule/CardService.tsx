@@ -2,6 +2,7 @@
 import { Service } from "@/types/Service";
 import { formatCurrency } from "@/utils/formatCurrency";
 import { Box, Card, CardContent, Chip, FormControlLabel, Grid, Radio, Typography } from "@mui/material";
+import { CustomControlLabel } from "./CustomControlLabel";
 
 
 interface CardServicesProps {
@@ -45,8 +46,8 @@ export default function CardService({ service }: CardServicesProps) {
     return (
         <>
 
-            <Grid display={'flex'} justifyContent={'center'} item xs={12} sm={6} md={3}>
-                <FormControlLabel value={service?.id} label={renderCard()} labelPlacement="bottom" control={<Radio/>} />
+            <Grid display={'flex'} justifyContent={'center'} item xs={9} sm={6} md={2.5}>
+                <CustomControlLabel sx={{margin:'0', width:'100%'}} value={service?.id} label={renderCard()} labelPlacement="bottom" control={<Radio/>} />
             </Grid>
         </>
 

@@ -14,6 +14,8 @@ import PetsIcon from '@mui/icons-material/Pets';
 import LogoutIcon from '@mui/icons-material/Logout';
 import { Button } from '@mui/material';
 import Link from 'next/link';
+import { useRouter } from 'next/navigation';
+import { logoutUser } from '@/globalRedux/modules/userLoggedSlice';
 
 
 
@@ -22,7 +24,7 @@ const pages = [{ label: '+ Agendamento', url: '/schedules' }, { label: '+ Animal
 const settings = ['Sair'];
 
 export default function ResponsiveAppBar() {
-
+    const {push} = useRouter();
     const [anchorElNav, setAnchorElNav] = React.useState<null | HTMLElement>(null);
     const [anchorElUser, setAnchorElUser] = React.useState<null | HTMLElement>(null);
     const dispatch = useAppDispatch();
@@ -36,11 +38,11 @@ export default function ResponsiveAppBar() {
     };
 
     const handleCloseUserMenu = () => {
-        window.location.href = '/signin';
+     
 
-        sessionStorage.removeItem('userLoggedId');
-
-        // dispatch(logoutUser());
+        sessionStorage.removeItem('authToken');
+        dispatch(logoutUser());
+        push('/signin');
         // dispatch(clearUser());
     };
 

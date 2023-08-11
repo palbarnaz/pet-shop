@@ -11,6 +11,7 @@ import { saveUserLogged, userLoggedReducer } from "@/globalRedux/modules/userLog
 import { getUserId } from "@/globalRedux/modules/userSlice";
 import { User } from "@/types/User.";
 import { Container, Grid, Typography } from "@mui/material";
+import { useRouter } from "next/navigation";
 import { useEffect } from "react";
 import ResponsiveAppBar from "./ResponsiveAppBar";
 
@@ -19,22 +20,22 @@ import ResponsiveAppBar from "./ResponsiveAppBar";
 export default function Home (){
   const dispatch = useAppDispatch();
   const { user } = useAppSelector((state) => state.user);
-  
+  const { push } = useRouter();
+
 
   useEffect(() => {
-    const userLoggedSession = sessionStorage?.getItem('userLoggedId');
-  const userLogged = userLoggedSession ? JSON.parse(userLoggedSession) : null;
+    const authToken = sessionStorage?.getItem('authToken');
 
-    if (!userLogged) {
-      window.location.href = '/signin';       
+    if (!authToken) {
+      push("/signin")
 
     }
     
-    dispatch(saveUserLogged(userLogged))
-    dispatch(getUserId(userLogged));
+    dispatch(saveUserLogged(authToken || ''))
+    dispatch(getUserId());
     dispatch(getServices())
 
-}, [dispatch]);
+}, [dispatch, push]);
 
 
 
