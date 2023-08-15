@@ -39,7 +39,12 @@ const user = createSlice({
     name: 'user',
     initialState: {user: {} as User,
 token: ''},
-    reducers: {},
+    reducers: {
+        clearUser: (state) => {
+        state.user = {} as User
+        state.token = ''
+    }
+  },
     extraReducers(builder) {
         builder.addCase(loginUserThunk.fulfilled, (state, action) => {
             state.token = action.payload.tokenJwt

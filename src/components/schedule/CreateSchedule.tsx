@@ -103,11 +103,10 @@ export default function CreateSchedule() {
         <Typography textAlign={'center'} variant="h5">Selecione o Animal</Typography>
         <Container >
           <Grid  item display={'flex'} justifyContent={'center'}  sx={{ marginTop: '30px' }}>
-           {user.animal ? (<AnimalGroupSelect value={animal} handleChange={(_event, value) => handleAnimal(value)}/>) 
+           {user.animal?.length ? (<AnimalGroupSelect value={animal} handleChange={(_event, value) => handleAnimal(value)}/>) 
            : (
             <Alert severity="warning"> Sem pets cadastrados. Cadastre já!</Alert>
            
-
            )}  
           </Grid>
         </Container>

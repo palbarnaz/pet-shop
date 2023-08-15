@@ -16,6 +16,7 @@ import { Button } from '@mui/material';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import { logoutUser } from '@/globalRedux/modules/userLoggedSlice';
+import { clearUser } from '@/globalRedux/modules/userSlice';
 
 
 
@@ -43,7 +44,7 @@ export default function ResponsiveAppBar() {
         sessionStorage.removeItem('authToken');
         dispatch(logoutUser());
         push('/signin');
-        // dispatch(clearUser());
+        dispatch(clearUser());
     };
 
     const handleClose = () => {

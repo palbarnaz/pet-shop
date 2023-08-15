@@ -27,6 +27,7 @@ export default function Form ({ mode, textButton } : FormProps){
     const [phone, setPhone] = useState<string>('');
     const [disabled, setDisabled] = useState<boolean>(false);
     const [errorEmail, setErrorEmail] = useState(false);
+    const [errorName, setErrorName] = useState(false)
     const [errorPassword, setErrorPassword] = useState(false);
     const [errorPhone, setErrorPhone] = useState(false);
     const [errorRepassword, setErrorRepassword] = useState(false);
@@ -56,6 +57,12 @@ export default function Form ({ mode, textButton } : FormProps){
                 setErrorPassword(!passwordValid);
             }
 
+            const nameValid =  name.length >= 3;
+            if (password.length > 0) {
+                setErrorName(!nameValid);
+            }
+
+
             const repasswordValid = password === repassword;
             if (repassword.length > 0) {
                 setErrorRepassword(!repasswordValid);
@@ -66,9 +73,9 @@ export default function Form ({ mode, textButton } : FormProps){
                 setErrorPhone(!phoneValid);
             }
 
-            setDisabled(!(emailValid && passwordValid && repasswordValid && phoneValid));
+            setDisabled(!(emailValid && passwordValid && repasswordValid && phoneValid && nameValid));
         }
-    }, [emailUser, password, repassword, mode, phone]);
+    }, [emailUser, password, repassword, mode, phone, name]);
 
    
 
@@ -94,7 +101,7 @@ export default function Form ({ mode, textButton } : FormProps){
         evento.preventDefault();
 
         if (mode === 'signup') {
-            dispatch(saveUser({id: Date.now().toString(), email: emailUser, password, profile:"CLIENT", phone, name}));
+            dispatch(saveUser({id: Date.now().toString(), email: emailUser, password, phone, name}));
             setEmailUser('');
             setPassword('');
             setRepassword('');
@@ -163,6 +170,8 @@ export default function Form ({ mode, textButton } : FormProps){
                 <TextField
                     value={name}
                     margin="normal"
+                    error={errorName}
+                    helperText={errorName ? 'O nome precisa ter ao menos 3 caracteres' : ''}
                     onChange={(e) => setName(e.target.value)}
                     variant="outlined"
                     type="text"
