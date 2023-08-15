@@ -43,20 +43,21 @@ export default function Animals() {
 
   const handleChange = () => {
     const dataAnimal = {
-
       name: name,
       specie: specie
 
     }
-
+    setName('')
+    setSpecie('')
     sendAnimal(dataAnimal)
+    
 
   }
 
   const sendAnimal = async (data: AnimalRequest) => {
 
     try {
-      const res = await createAnimal(data)
+      await createAnimal(data)
       push('/schedules')
 
     } catch (error) {
