@@ -9,6 +9,7 @@ import { AxiosError } from 'axios';
 export const getSchedules = createAsyncThunk('schedules/get', async () => {
     try {
         const response = await getScheduleByUser();
+        console.log('teste')
         return response;
 
     } catch (error: any) {
