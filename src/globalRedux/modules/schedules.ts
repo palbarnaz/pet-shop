@@ -10,6 +10,9 @@ export const getSchedules = createAsyncThunk('schedules/get', async () => {
     try {
         const response = await getScheduleByUser();
         console.log('teste')
+        console.log('aqui');
+        
+        
         return response;
 
     } catch (error: any) {
